@@ -1,8 +1,29 @@
+# Java Files #
+*.class
+
+# Package Files #
+# *.jar, we need to checkin gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear
+
+# Eclipse files #
+.settings
+.classpath
+.project
+
+# IntelliJ files #
+.idea
+local.properties
+*.iml
+out
+
+# Gradle files #
 .gradle
-build/
+build
 
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+target
+logs
+ML-to-do-notes.md
+data
+mycert.pem
+incubator
