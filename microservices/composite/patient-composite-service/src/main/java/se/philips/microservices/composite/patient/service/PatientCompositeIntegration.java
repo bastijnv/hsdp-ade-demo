@@ -3,6 +3,7 @@ package se.philips.microservices.composite.patient.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,9 @@ public class PatientCompositeIntegration {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    // -------- //
-    // PATIENTS //
-    // -------- //
+    /* PATIENTS */
 
+    @HystrixCommand(fallbackMethod = "defaultPatient")
     public ResponseEntity<Patient> getPatient(int patientId) {
 
         URI uri = util.getServiceUrl("patient", "http://localhost:8081/patient");
@@ -48,10 +48,20 @@ public class PatientCompositeIntegration {
         return util.createOkResponse(patient);
     }
 
-    // --------------- //
-    // OBSERVATIONS    //
-    // --------------- //
+    /**
+     * Fallback method for getPatient()
+     *
+     * @param patientId
+     * @return
+     */
+    public ResponseEntity<Patient> defaultPatient(int patientId) {
+        LOG.warn("Using fallback method for patient-service");
+        return util.createResponse(null, HttpStatus.BAD_GATEWAY);
+    }
 
+    /* OBSERVATIONS */
+
+    @HystrixCommand(fallbackMethod = "defaultObservations")
     public ResponseEntity<List<Observation>> getObservations(int patientId) {
         try {
             LOG.info("GetObservations...");
@@ -75,10 +85,20 @@ public class PatientCompositeIntegration {
         }
     }
 
-    // -------- //
-    // EPISODES //
-    // -------- //
+    /**
+     * Fallback method for getObservations()
+     *
+     * @param patientId
+     * @return
+     */
+    public ResponseEntity<List<Observation>> defaultObservations(int patientId) {
+        LOG.warn("Using fallback method for observation-service");
+        return util.createResponse(null, HttpStatus.BAD_GATEWAY);
+    }
 
+    /* EPISODES */
+
+    @HystrixCommand(fallbackMethod = "defaultEpisodes")
     public ResponseEntity<List<Episode>> getEpisodes(int patientId) {
         LOG.info("GetEpisodes...");
 
@@ -97,9 +117,18 @@ public class PatientCompositeIntegration {
         return util.createOkResponse(episodes);
     }
 
-    // ----- //
-    // UTILS //
-    // ----- //
+    /**
+     * Fallback method for getEpisodes()
+     *
+     * @param patientId
+     * @return
+     */
+    public ResponseEntity<List<Episode>> defaultEpisodes(int patientId) {
+        LOG.warn("Using fallback method for episode-service");
+        return util.createResponse(null, HttpStatus.BAD_GATEWAY);
+    }
+
+    /* UTILS */
 
     private ObjectReader patientReader = null;
     private ObjectReader getPatientReader() {
