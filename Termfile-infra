@@ -1,0 +1,14 @@
+# Use:
+#  $ termrc start Termfile-infra
+
+root:
+  ~/views/hsdp-ade-demo/microservices
+
+commands:
+  discovery-server:  cd support/discovery-server;  ./gradlew bootRun
+  edge-server:       cd support/edge-server;       ./gradlew bootRun
+
+layout_type: row
+
+layout:
+  - [ discovery-server, edge-server ]

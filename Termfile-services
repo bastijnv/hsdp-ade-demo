@@ -1,0 +1,16 @@
+# Use:
+#  $ termrc start Termfile-services
+
+root:
+  ~/views/hsdp-ade-demo/microservices
+
+commands:
+  patient:           cd core/patient-service;                ./gradlew bootRun
+  observation:    cd core/observation-service;         ./gradlew bootRun
+  episode:            cd core/episode-service;                 ./gradlew bootRun
+  patient-composite: cd composite/patient-composite-service; ./gradlew bootRun
+
+layout_type: row
+
+layout:
+  - [ patient, observation, episode, patient-composite ]
