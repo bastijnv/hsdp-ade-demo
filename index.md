@@ -9,6 +9,8 @@ Welcome to the blog series demonstrating the HSDP Application Development Enviro
 ## **Introduction** - An operation model for Microservices
 Describe the architectural idea of how to partition our microservices developed in alpha, beta, gamma, and delta.
 
+[Read full article](articles/introduction)
+
 ## **Alpha** - Base services + Edge server (Zuul), Load Balancer (Ribbon), Discovery (Eureka)
 Create and test the first microservices patient-composite (composite), patient (core), observation (core), episode (core), edge-server (support), discovery (support).
 
