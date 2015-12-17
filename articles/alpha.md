@@ -2,7 +2,6 @@
 title: Alpha
 layout: default
 ---
-[Back to Index](../index)
 
 ## Introduction
 Some text
