@@ -3,6 +3,8 @@ title: Index
 layout: default
 ---
 
+{% include toc.html %}
+
 Welcome to the blog series demonstrating the HSDP Application Development Environment (ADE). This series is meant as introduction to the HSDP ADE as well as layout the develop experience. The series covers deploying microservices in local development environment, and the cloud using applications platforms and infrastructures for Docker.
 
 
