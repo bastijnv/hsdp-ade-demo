@@ -1,5 +1,6 @@
 ---
 title: Alpha
+layout: default
 ---
 
 # Some header
