@@ -17,7 +17,7 @@ management:
 
 logging:
   level:
-    root: INFO
+    root: WARN
     com.netflix.discovery: 'OFF'
     # org.springframework.integration: DEBUG
 
@@ -36,3 +36,42 @@ eureka:
 #  aggregator:
 #    clusterConfig: CUSTOMERS
 #  appConfig: customers
+
+---
+# For deployment in Docker containers
+spring:
+  profiles: docker
+
+app:
+  rabbitmq:
+    host: rabbitmq
+
+eureka:
+  instance:
+    hostname: turbine
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+---
+# For deployment in Cloud Foundry
+spring:
+  profiles: cloud
+
+server:
+  port: 0 # Avoid collisions in the unknown CF djungle...
+
+management:
+  port: 0 # Avoid collisions in the unknown CF djungle...
+
+turbine:
+  amqp:
+    port: 0 # Avoid collisions in the unknown CF djungle...
+
+eureka:
+  instance:
+    hostname: ${vcap.application.uris[0]:localhost}
+    nonSecurePort: 80
+  client:
+    serviceUrl:
+      defaultZone: http://bv-public-ds-1.cloud.pcftest.com/eureka/

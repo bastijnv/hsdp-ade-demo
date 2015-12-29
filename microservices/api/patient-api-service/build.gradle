@@ -4,9 +4,11 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
@@ -14,6 +16,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'docker'
 
 jar {
     baseName = 'patient-api-service'
@@ -21,6 +24,8 @@ jar {
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+group = 'philips'
+mainClassName = 'se.philips.microservices.api.patient.PatientApiServiceApplication'
 
 repositories {
     mavenLocal()
@@ -49,7 +54,20 @@ dependencies {
     compile("org.apache.httpcomponents:httpclient:4.2.1")
     compile("org.apache.httpcomponents:fluent-hc:4.2.1")
 
+    compile("se.philips.microservices:util:0.0.1-SNAPSHOT")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+distDocker {
+    exposePort 8080
+    addFile 'src/main/resources/truststore.jks', 'truststore.jks'
+    setEnvironment 'JAVA_OPTS', '-Dspring.profiles.active=docker -Djavax.net.ssl.trustStore=truststore.jks -Djavax.net.ssl.trustStorePassword=password'
+}
+
+docker {
+    maintainer = 'Bastijn Vissers <bastijn.vissers@philips.com>'
+    baseImage = 'java:8'
 }
 
 task wrapper(type: Wrapper) {

@@ -1,0 +1,43 @@
+---
+memory: 512M
+instances: 1
+applications:
+#- name: auth-server
+#  host: bv-public-auth
+#  path: microservices/support/auth-server/build/libs/auth-server-0.0.1-SNAPSHOT.jar
+#- name: discovery-server
+#  host: bv-public-ds-1
+#  path: microservices/support/discovery-server/build/libs/discovery-server-0.0.1-SNAPSHOT.jar
+- name: edge-server
+  host: bv-public-edge
+  path: microservices/support/edge-server/build/libs/edge-server-0.0.1-SNAPSHOT.jar
+#- name: monitor-dashboard
+#  host: bv-public-md
+#  path: microservices/support/monitor-dashboard/build/libs/monitor-dashboard-0.0.1-SNAPSHOT.jar
+#  services:
+#  - RabbitMQ
+#- name: turbine
+#  host: bv-private-t
+#  path: microservices/support/turbine/build/libs/turbine-0.0.1-SNAPSHOT.jar
+#  services:
+#  - RabbitMQ
+#- name: patient-service
+#  host: bv-private-pro
+#  path: microservices/core/patient-service/build/libs/patient-service-0.0.1-SNAPSHOT.jar
+#- name: observation-service
+#  host: bv-private-rec
+#  path: microservices/core/observation-service/build/libs/observation-service-0.0.1-SNAPSHOT.jar
+#- name: episode-service
+#  host: bv-private-rev
+#  path: microservices/core/episode-service/build/libs/episode-service-0.0.1-SNAPSHOT.jar
+#- name: patient-composite-service
+#  host: bv-private-comp-pro
+#  path: microservices/composite/patient-composite-service/build/libs/patient-composite-service-0.0.1-SNAPSHOT.jar
+#  services:
+#  - RabbitMQ
+#- name: patient-api-service
+#  host: bv-private-api-pro
+#  path: microservices/api/patient-api-service/build/libs/patient-api-service-0.0.1-SNAPSHOT.jar
+#  services:
+#  - RabbitMQ
+
