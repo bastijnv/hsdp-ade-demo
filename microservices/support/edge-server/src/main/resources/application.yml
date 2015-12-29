@@ -1,5 +1,13 @@
+server:
+  port: 8765
+
 info:
   component: Zuul Server
+
+spring:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:9999/uaa/user
 
 endpoints:
   restart:
@@ -11,13 +19,9 @@ endpoints:
 
 zuul:
   ignoredServices: "*"
+  prefix: /api
   routes:
-    patientcomposite:
-      path: /patientcomposite/**
-#      stripPrefix: false
-
-server:
-  port: 8765
+    patientapi: /patient/**
 
 logging:
   level:
