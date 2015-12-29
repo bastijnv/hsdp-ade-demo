@@ -21,8 +21,12 @@ Create and test the first microservices patient-composite (composite), patient (
 ## **Beta** - Circuit Breaker, Monitor Dashboard (Hystrix + Turbine)
 Add a circuit breaker and monitor dashboard (Hystrix + Turbine) to the example built in Alpha and verify that short circuits are opened when services go offline.
 
+[Read full article](articles/beta)
+
 ## **Gamma** - OAuth 2.0
 Add a new service (product-api), that will act as the external API (a Resource Server in OAuth terminology). Expose its services through the edge server introduced in Alpha acting as a token relay. Add OAuth Authorization Server and OAuth client.
+
+[Read full article](articles/gamma)
 
 ## **Delta** - Dockerize!
 Dockerize everything!
