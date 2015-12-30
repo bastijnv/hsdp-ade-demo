@@ -1,6 +1,7 @@
 package se.philips.microservices.api.patient.service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.apache.log4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +13,28 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import se.philips.microservices.util.ServiceUtils;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import java.net.URI;
 import java.security.Principal;
-import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+
+@Produces(APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 @RestController
 public class PatientApiService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PatientApiService.class);
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    ServiceUtils util;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     private LoadBalancerClient loadBalancer;
@@ -36,6 +46,7 @@ public class PatientApiService {
         @RequestHeader(value="Authorization") String authorizationHeader,
         Principal currentUser) {
 
+        MDC.put("patientId", patientId);
         LOG.info("PatientApi: User={}, Auth={}, called with patientId={}", currentUser.getName(), authorizationHeader, patientId);
         URI uri = loadBalancer.choose("patientcomposite").getUri();
         String url = uri.toString() + "/patient/" + patientId;
@@ -45,7 +56,7 @@ public class PatientApiService {
         LOG.info("GetPatientComposite http-status: {}", result.getStatusCode());
         LOG.debug("GetPatientComposite body: {}", result.getBody());
 
-        return result;
+        return util.createResponse(result);
     }
 
     /**

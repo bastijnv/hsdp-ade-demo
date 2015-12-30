@@ -7,10 +7,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import se.philips.microservices.util.ServiceUtils;
 import se.philips.microservices.core.patient.model.Patient;
 import se.philips.microservices.core.observation.model.Observation;
 import se.philips.microservices.core.episode.model.Episode;
@@ -25,16 +27,22 @@ public class PatientCompositeIntegration {
     private static final Logger LOG = LoggerFactory.getLogger(PatientCompositeIntegration.class);
 
     @Autowired
-    Util util;
+    private LoadBalancerClient loadBalancer;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    ServiceUtils util;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /* PATIENTS */
 
     @HystrixCommand(fallbackMethod = "defaultPatient")
     public ResponseEntity<Patient> getPatient(int patientId) {
 
-        URI uri = util.getServiceUrl("patient", "http://localhost:8081/patient");
+        LOG.debug("Will call getPatient with Hystrix protection");
+
+        URI uri = util.getServiceUrl("patient");
         String url = uri.toString() + "/patient/" + patientId;
         LOG.debug("GetPatient from URL: {}", url);
 

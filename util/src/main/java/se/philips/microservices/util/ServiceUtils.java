@@ -35,7 +35,7 @@ public class ServiceUtils {
      * @param fallbackUri
      * @return
      */
-    protected URI getServiceUrl(String serviceId, String fallbackUri) {
+    public URI getServiceUrl(String serviceId, String fallbackUri) {
         URI uri = null;
         try {
             ServiceInstance instance = loadBalancer.choose(serviceId);

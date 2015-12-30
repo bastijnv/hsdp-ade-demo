@@ -8,13 +8,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.philips.microservices.composite.patient.model.PatientAggregated;
+import se.philips.microservices.util.ServiceUtils;
 import se.philips.microservices.core.patient.model.Patient;
 import se.philips.microservices.core.observation.model.Observation;
 import se.philips.microservices.core.episode.model.Episode;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import java.util.Date;
 import java.util.List;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
+
+@Produces(APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 @RestController
 public class PatientCompositeService {
 
@@ -24,7 +32,7 @@ public class PatientCompositeService {
     PatientCompositeIntegration integration;
 
     @Autowired
-    Util util;
+    ServiceUtils util;
 
     @RequestMapping("/")
     public String getPatient() {

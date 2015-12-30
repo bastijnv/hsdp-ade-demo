@@ -22,22 +22,21 @@ applications:
 #  services:
 #  - RabbitMQ
 #- name: patient-service
-#  host: bv-private-pro
+#  host: bv-private-patient
 #  path: microservices/core/patient-service/build/libs/patient-service-0.0.1-SNAPSHOT.jar
 #- name: observation-service
-#  host: bv-private-rec
+#  host: bv-private-observation
 #  path: microservices/core/observation-service/build/libs/observation-service-0.0.1-SNAPSHOT.jar
 #- name: episode-service
-#  host: bv-private-rev
+#  host: bv-private-episode
 #  path: microservices/core/episode-service/build/libs/episode-service-0.0.1-SNAPSHOT.jar
 #- name: patient-composite-service
-#  host: bv-private-comp-pro
+#  host: bv-private-comp-patient
 #  path: microservices/composite/patient-composite-service/build/libs/patient-composite-service-0.0.1-SNAPSHOT.jar
 #  services:
 #  - RabbitMQ
 #- name: patient-api-service
-#  host: bv-private-api-pro
+#  host: bv-private-api-patient
 #  path: microservices/api/patient-api-service/build/libs/patient-api-service-0.0.1-SNAPSHOT.jar
 #  services:
 #  - RabbitMQ
-

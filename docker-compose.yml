@@ -13,18 +13,18 @@ auth:
   image: philips/auth-server
   ports:
     - "9999:9999"
-  
-pro:
+
+patient:
   image: philips/patient-service
   links:
     - discovery
 
-rec:
+observation:
   image: philips/observation-service
   links:
     - discovery
 
-rev:
+episode:
   image: philips/episode-service
   links:
     - discovery
@@ -36,7 +36,7 @@ composite:
     - rabbitmq
 
 api:
-  image: philips/philips-api-service
+  image: philips/patient-api-service
   links:
     - auth
     - discovery
