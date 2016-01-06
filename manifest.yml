@@ -1,0 +1,52 @@
+---
+memory: 1024M
+instances: 1
+applications:
+- name: auth-server
+  host: bv-public-auth
+  path: microservices/support/bv-public-server/build/libs/bv-public-server-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: discovery-server
+  host: bv-public-ds-1
+  path: microservices/support/discovery-server/build/libs/discovery-server-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: edge-server
+  host: bv-public-edge
+  path: microservices/support/edge-server/build/libs/edge-server-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: monitor-dashboard
+  host: bv-public-md
+  path: microservices/support/monitor-dashboard/build/libs/monitor-dashboard-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+  services:
+  - rabbitmq
+- name: turbine
+  host: bv-private-t
+  path: microservices/support/turbine/build/libs/turbine-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+  services:
+  - rabbitmq
+- name: patient-service
+  host: bv-private-patient
+  path: microservices/core/patient-service/build/libs/patient-service-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: observation-service
+  host: bv-private-observation
+  path: microservices/core/observation-service/build/libs/observation-service-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: episode-service
+  host: bv-private-episode
+  path: microservices/core/episode-service/build/libs/episode-service-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+- name: patient-composite-service
+  host: bv-private-comp-patient
+  path: microservices/composite/patient-composite-service/build/libs/patient-composite-service-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+  services:
+  - rabbitmq
+- name: patient-api-service
+  host: bv-private-api-pro
+  path: microservices/api/patient-api-service/build/libs/patient-api-service-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack30
+  services:
+  - rabbitmq
