@@ -28,7 +28,7 @@ The architecture for this series discerns three layers of services:
 
 Horizontally you could separate services by domain.
 
-![](images/introduction-architecture.png)
+![](../images/introduction-architecture.png)
 
 ## Challenges
 
@@ -67,4 +67,4 @@ use [Eureka](https://www.google.com "Eureka on Github") as our *Discovery Server
 at this discovery server so we do not have to keep manually about which server is (un)available.
  
  
-![](images/introduction-operations-model.png)
+![](../images/introduction-operations-model.png)
