@@ -5,6 +5,9 @@ layout: default
 
 {% include toc.html %}
 
+* toc placeholder
+{:toc}
+
 ## Microservices
 Microservices have been introduced many times before al over the web. If you need a good introduction please read [Martin Fowler](http://martinfowler.com/microservices/)'s 
 introduction. This series continues assuming you have basic understanding of microservices.
