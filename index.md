@@ -31,6 +31,8 @@ Add a new service (product-api), that will act as the external API (a Resource S
 ## **Delta** - Dockerize!
 Dockerize everything!
 
+[Read full article](articles/delta.html)
+
 ## **Epsilon** - An AngularJS client
 Add a client with actual UI!
 
