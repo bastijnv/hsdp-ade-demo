@@ -26,7 +26,7 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'philips'
-mainClassName = 'se.philips.microservices.composite.patient.PatientCompositeServiceApplication'
+mainClassName = 'com.philips.microservices.composite.patient.PatientCompositeServiceApplication'
 
 repositories {
     mavenLocal()
@@ -51,10 +51,10 @@ dependencies {
 
     compile('com.google.guava:guava:19.0')
 
-    compile("se.philips.microservices:util:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices:util:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

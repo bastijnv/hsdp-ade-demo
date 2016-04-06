@@ -30,7 +30,7 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'philips'
-mainClassName = 'se.philips.microservices.support.discovery.EurekaApplication'
+mainClassName = 'com.philips.microservices.support.discovery.EurekaApplication'
 
 repositories {
     mavenCentral()

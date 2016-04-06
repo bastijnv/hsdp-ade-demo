@@ -26,7 +26,7 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'philips'
-mainClassName = 'se.philips.microservices.support.edge.ZuulApplication'
+mainClassName = 'com.philips.microservices.support.edge.ZuulApplication'
 
 repositories {
      mavenLocal()
@@ -42,7 +42,7 @@ dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-zuul:1.0.0.RELEASE')
     compile('org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE')
 
-    compile("se.philips.microservices:util:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices:util:0.0.1-SNAPSHOT")
 
     compile('com.google.guava:guava:19.0')
 

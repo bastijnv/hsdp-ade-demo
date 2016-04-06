@@ -26,7 +26,7 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'philips'
-mainClassName = 'se.philips.microservices.support.monitordashboard.HystrixDashboardApplication'
+mainClassName = 'com.philips.microservices.support.monitordashboard.HystrixDashboardApplication'
 
 repositories {
     mavenCentral()

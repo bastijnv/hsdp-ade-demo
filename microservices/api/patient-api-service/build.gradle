@@ -25,7 +25,7 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'philips'
-mainClassName = 'se.philips.microservices.api.patient.PatientApiServiceApplication'
+mainClassName = 'com.philips.microservices.api.patient.PatientApiServiceApplication'
 
 repositories {
     mavenLocal()
@@ -55,7 +55,7 @@ dependencies {
     compile("org.apache.httpcomponents:httpclient:4.2.1")
     compile("org.apache.httpcomponents:fluent-hc:4.2.1")
 
-    compile("se.philips.microservices:util:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices:util:0.0.1-SNAPSHOT")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

@@ -13,7 +13,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             // TODO: Where to place these properties?
-            groupId 'se.philips.microservices'
+            groupId 'com.philips.microservices'
             artifactId 'util'
             version '0.0.1-SNAPSHOT'
 
