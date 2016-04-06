@@ -32,3 +32,36 @@ $ git clone https://github.com/bastijnv/hsdp-ade-demo.git
 $ cd hsdp-ade-demo
 $ git checkout -b alpha
 ```
+
+In true microservice spirit, each component is built separately and thus has its own build file. [Gradle](http://gradle.org/) is
+used as the build system. For convenience a script is available to to build all the microservices in one command. 
+
+```bash
+$ ./build-all.sh
+```
+
+> *Note:* Windows users should use the build-all.bat file.
+
+Running the command should result in six times `BUILD SUCCESSFUL`, for each of the microservices introduced above. 
+
+## Source Code Overview
+Now that we have our source code checked out and built, let's walk through the code architecture and highlight the key elements.
+Each microservice is a standalone [Spring Boot](http://projects.spring.io/spring-boot/) application using [Undertow](http://undertow.io/)
+as its web server. [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) is used to implement
+the REST based services.
+
+### Gradle
+Spring Cloud has defined a set of starter dependencies to kickstart development. To use Eureka and Ribbon in a microservice we only have 
+to add the following dependency to our gradle build file:
+
+```
+compile("org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE")
+```
+
+A complete gradle file can be found [here](https://github.com/bastijnv/hsdp-ade-demo/blob/alpha/microservices/core/patient-service/build.gradle).
+In the same way we can add the dependency for an Eureka server to our Discovery Server microservice 
+([see also](https://github.com/bastijnv/hsdp-ade-demo/blob/alpha/microservices/support/discovery-server/build.gradle)):
+
+```
+compile('org.springframework.cloud:spring-cloud-starter-eureka-server:1.0.0.RELEASE')
+```

@@ -73,7 +73,7 @@ Security is handled in two steps. First of all, to prevent unauthorized access t
 *Edge Server* that all external traffic goes through. This edge server will act as a reverse proxy and doesn't need to be manually updated each 
 time a microservice is added. The edge server can reuse the dynamic routing and load balancing capabilities based 
 on the service discovery component described above. The remaining exposed API services are protected by applying *OAuth2* via 
-[Spring Cloud](http://projects.spring.io/spring-cloud/) and [Spring Cloud Security OAuth2](http://cloud.spring.io/spring-cloud-security/). 
+[Spring Cloud](http://projects.spring.io/spring-cloud/) and [Spring Cloud Security OAuth2](http://projects.spring.io/spring-security-oauth/). 
 Digital Ocean has a [great introduction](https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2) to OAuth2 if you are not familiar with it. 
 The four roles in OAuth are: (1) Resource Owner, (2) Client, (3) Resource Server, (4) Authorization Server. In our operations model 
 shown below we introduce an *OAuth Authorization Server* as a separate component. The API services will act as *OAuth Resource Server* and the
