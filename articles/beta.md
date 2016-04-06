@@ -1,6 +1,6 @@
 ---
 title: Beta - Circuit Breaker, Monitor Dashboard (Hystrix + Turbine)
-layout: default
+layout: default-article
 ---
 
 {% include toc.html %}

@@ -1,6 +1,6 @@
 ---
 title: Gamma - OAuth 2.0
-layout: default
+layout: default-article
 ---
 
 {% include toc.html %}

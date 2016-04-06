@@ -1,7 +1,7 @@
 ---
 title: Alpha - Base services + Edge server (Zuul), Load Balancer (Ribbon), Discovery (Eureka)
-layout: default
----
+layout: default-article
+-----------------------
 
 {% include toc.html %}
 
