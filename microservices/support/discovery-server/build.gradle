@@ -47,6 +47,8 @@ dependencies {
         exclude(module: 'servlet-api') // Drags in an old 2.5 spec...
     }
 
+    compile('com.google.guava:guava:19.0')
+
 //    compile('org.springframework.boot:spring-boot-starter-security')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -49,6 +49,8 @@ dependencies {
     compile("org.springframework.cloud:spring-cloud-starter-bus-amqp:1.0.0.RELEASE")
     compile("org.springframework.cloud:spring-cloud-netflix-hystrix-amqp:1.0.0.RELEASE")
 
+    compile('com.google.guava:guava:19.0')
+
     compile("se.philips.microservices:util:0.0.1-SNAPSHOT")
     compile("se.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
     compile("se.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
