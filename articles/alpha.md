@@ -65,3 +65,12 @@ In the same way we can add the dependency for an Eureka server to our Discovery 
 ```
 compile('org.springframework.cloud:spring-cloud-starter-eureka-server:1.0.0.RELEASE')
 ```
+
+### Support microservices
+Soon to come.
+
+### Composite and Core services
+Soon to come.
+
+## Run and Interact
+Soon to come.
