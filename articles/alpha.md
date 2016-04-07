@@ -32,9 +32,9 @@ bypassing the edge server (see below).
 To get the source used in the remainder of this article you can checkout the GIT repo.
   
 ```bash
-git clone https://github.com/bastijnv/hsdp-ade-demo.git
-cd hsdp-ade-demo
-git checkout -b alpha
+$ git clone https://github.com/bastijnv/hsdp-ade-demo.git
+$ cd hsdp-ade-demo
+$ git checkout -b alpha
 ```
 
 In true microservice spirit, each component is built separately and thus has its own build file.
@@ -42,7 +42,7 @@ In true microservice spirit, each component is built separately and thus has its
 build all the microservices in one command.
 
 ```bash
-./build-all.sh
+$ ./build-all.sh
 ```
 
 > *Note:* Windows users should use the build-all.bat file.
@@ -163,13 +163,13 @@ the below series of commands start the services. You might want to start the sup
 first, although this is not strictly required.
 
 ```bash
-cd support/discovery-server;  ./gradlew bootRun
-cd support/edge-server;       ./gradlew bootRun
+$ cd support/discovery-server;  ./gradlew bootRun
+$ cd support/edge-server;       ./gradlew bootRun
 
-cd core/patient-service;                 ./gradlew bootRun
-cd core/observation-service;             ./gradlew bootRun
-cd core/episode-service;                 ./gradlew bootRun
-cd composite/patient-composite-service;  ./gradlew bootRun
+$ cd core/patient-service;                 ./gradlew bootRun
+$ cd core/observation-service;             ./gradlew bootRun
+$ cd core/episode-service;                 ./gradlew bootRun
+$ cd composite/patient-composite-service;  ./gradlew bootRun
 ```
 
 Sit back and relax while the services are coming up. After a while the discovery service should
@@ -184,36 +184,139 @@ Now we can start and execute some cURL commands in our terminal to test the serv
 find out what services are running on what addresses.
 
 ```bash
-curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
+$ curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
  jq '.applications.application[] |
  {service: .name, ip: .instance.ipAddr, port: .instance.port."$"}'
 ```
-Which should return the following:
+Which should return something similar to what is displayed below.
 
 ```json
 {
-  "service": "PRODUCT",
-  "ip": "192.168.0.116",
-  "port": "59745"
+  "service": "OBSERVATION",
+  "ip": "10.10.5.106",
+  "port": "65522"
 }
 {
-  "service": "REVIEW",
-  "ip": "192.168.0.116",
-  "port": "59178"
+  "service": "PATIENTCOMPOSITE",
+  "ip": "10.10.5.106",
+  "port": "41420"
 }
 {
-  "service": "RECOMMENDATION",
-  "ip": "192.168.0.116",
-  "port": "48014"
+  "service": "EPISODE",
+  "ip": "10.10.5.106",
+  "port": "41533"
 }
 {
-  "service": "PRODUCTCOMPOSITE",
-  "ip": "192.168.0.116",
-  "port": "51658"
+  "service": "PATIENT",
+  "ip": "10.10.5.106",
+  "port": "40738"
 }
 {
   "service": "EDGESERVER",
-  "ip": "192.168.0.116",
+  "ip": "10.10.5.106",
   "port": "8765"
 }
 ```
+
+Great, our services are up and running and all of them have registered themselves with the discovery
+server. Time to call the composite service through the edge server. We know the edge server is found
+on port 8765 (seen in its application.yml as well as returned from our previous curl command). From
+the Zuul settings we now we can reach the patient-composite at `/patientcomposite/**`. Thus we can
+run the following command to get a patient.
+
+```bash
+$ curl -s localhost:8765/patientcomposite/patient/1 | jq .
+```
+
+If you watch the logging in the terminal windows (tabs, splits) where you started your services you
+should see the requests come in and being handled. Note that the first time may be a bit slow, or
+even sometimes not return anything at all. Running a second time usually solves the problem. In
+production code you would of course solve this issue but for the sake of the tutorial I left it
+untouched. The response should be something similar to the following:
+
+```json
+{
+  "patientId": 1,
+  "name": "name",
+  "birthDate": "01-01-2000",
+  "observations": [
+    {
+      "observationId": 1,
+      "type": "Steps",
+      "value": 100
+    },
+    {
+      "observationId": 2,
+      "type": "HearthRate",
+      "value": 63
+    },
+    {
+      "observationId": 3,
+      "type": "Steps",
+      "value": 400
+    }
+  ],
+  "episodes": [
+    {
+      "episodeId": 1,
+      "referral": "Acme",
+      "tac": "eCAC"
+    },
+    {
+      "episodeId": 2,
+      "referral": "Acme",
+      "tac": "eTrAC"
+    },
+    {
+      "episodeId": 3,
+      "referral": "Acme",
+      "tac": "eTrAC"
+    }
+  ]
+}
+```
+
+Now, since not protection is yet in place, we can also directly call the core services bypassing
+the edge server. We do not know which dynamic address was assigned to them but using the output
+from our earlier Eureka REST api call we can look them up.
+
+```bash
+$ curl -s localhost:41420/patient/1 | jq .
+$ curl -s localhost:40738/patient/1 | jq .
+$ curl -s localhost:41533/episode?patientId=1 | jq .
+$ curl -s localhost:65522/observation?patientId=1 | jq .
+```
+
+No that we have verified that is working we can spin up a new instance of the episode service.
+Having multiple instances up for a single service is common practice to prevent failures due to
+network outage or crashing services. Adding a new instance is as easy as starting another instance
+since service discovery handles the rest for us.
+
+```bash
+$ cd core/episode-service
+$ ./gradlew bootRun
+```
+
+After a while you should see the registered service in your eureka page. Under the status message
+for the episode service it should now say **up**(*2*) instead of **up**(1). If you run the previous
+curl command to the patientcomposite a few times and watch the logs of the episode services you
+should see both services responding. To make sure the calls are made fast enough after each other
+to let the load balancer balance them you can run the following command.
+
+```bash
+$ ab -n 30 -c 5 localhost:8765/patientcomposite/patient/1
+```
+
+![alpha-services-terminal](../images/alpha-services-terminal.png)
+
+## Wrap-up
+We have introduced our first four business services and two supporting services. We have shown
+how to build and run them and ran some tests against them. Instances automatically register
+themselves with the discovery server and when multiple instances are available of a single
+service the load balancer automatically routes the requests to the available services. We have a
+basic implementation of the edge server which gives control over which servers are exposed to the
+public. However, the internal services weren't protected yet so after looking up their addresses in
+Eureka we are still able to target them directly.
+
+In our [next](beta.html) article we will introduce a circuit breaker and health monitoring.
+
