@@ -26,7 +26,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             // TODO: Where to place these properties?
-            groupId 'se.philips.microservices.core.patient'
+            groupId 'com.philips.microservices.core.patient'
             artifactId 'patient-service'
             version '0.0.1-SNAPSHOT'
 
