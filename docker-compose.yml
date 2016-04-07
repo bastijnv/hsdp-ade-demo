@@ -1,0 +1,59 @@
+rabbitmq:
+  image: rabbitmq:3-management
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+
+discovery:
+  image: philips/discovery-server
+  ports:
+    - "8761:8761"
+
+auth:
+  image: philips/auth-server
+  ports:
+    - "9999:9999"
+
+patient:
+  image: philips/patient-service
+  links:
+    - discovery
+
+observation:
+  image: philips/observation-service
+  links:
+    - discovery
+
+episode:
+  image: philips/episode-service
+  links:
+    - discovery
+
+composite:
+  image: philips/patient-composite-service
+  links:
+    - discovery
+    - rabbitmq
+
+api:
+  image: philips/patient-api-service
+  links:
+    - auth
+    - discovery
+    - rabbitmq
+
+monitor:
+  image: philips/monitor-dashboard
+  ports:
+    - "7979:7979"
+  links:
+    - api
+    - composite
+
+edge:
+  image: philips/edge-server
+  ports:
+    - "443:8765"
+  links:
+    - discovery
+    - api

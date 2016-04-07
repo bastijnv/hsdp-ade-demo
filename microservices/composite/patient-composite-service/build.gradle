@@ -4,9 +4,11 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
@@ -14,6 +16,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'docker'
 
 jar {
     baseName = 'patient-composite-service'
@@ -22,6 +25,8 @@ jar {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+group = 'philips'
+mainClassName = 'com.philips.microservices.composite.patient.PatientCompositeServiceApplication'
 
 repositories {
     mavenLocal()
@@ -44,11 +49,24 @@ dependencies {
     compile("org.springframework.cloud:spring-cloud-starter-bus-amqp:1.0.0.RELEASE")
     compile("org.springframework.cloud:spring-cloud-netflix-hystrix-amqp:1.0.0.RELEASE")
 
-    compile("se.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
+    compile('com.google.guava:guava:19.0')
+
+    compile("com.philips.microservices:util:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+distDocker {
+    exposePort 8080
+    setEnvironment 'JAVA_OPTS', '-Dspring.profiles.active=docker'
+}
+
+docker {
+    maintainer = 'Bastijn Vissers <bastijn.vissers@philips.com>'
+    baseImage = 'java:8'
 }
 
 task wrapper(type: Wrapper) {

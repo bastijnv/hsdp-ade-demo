@@ -1,8 +1,8 @@
-pushd microservices\core\product-service &                call gradlew clean publishToMavenLocal & popd
+pushd microservices\core\patient-service &                call gradlew clean publishToMavenLocal & popd
 pushd microservices\core\recommendation-service &         call gradlew clean publishToMavenLocal & popd
 pushd microservices\core\review-service &                 call gradlew clean publishToMavenLocal & popd
-pushd microservices\composite\product-composite-service & call gradlew clean build & popd
-pushd microservices\api\product-api-service &             call gradlew clean build & popd
+pushd microservices\composite\patient-composite-service & call gradlew clean build & popd
+pushd microservices\api\patient-api-service &             call gradlew clean build & popd
 
 pushd microservices\support\auth-server &                 call gradlew clean build & popd
 pushd microservices\support\discovery-server &            call gradlew clean build & popd

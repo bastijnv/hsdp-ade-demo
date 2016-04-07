@@ -12,8 +12,8 @@ server:
 
 logging:
   level:
-    ROOT: INFO
-    org.springframework.web: DEBUG
+    ROOT: WARN
+    org.springframework.web: WARN
 
 eureka:
   client:
@@ -35,3 +35,29 @@ eureka:
   instance:
     #Virtual host name by which the clients identifies this service
     virtualHostName: ${spring.application.name}
+
+
+---
+# For deployment in Docker containers
+spring:
+  profiles: docker
+
+eureka:
+  instance:
+    hostname: monitor
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+---
+# For deployment in Cloud Foundry
+spring:
+  profiles: cloud
+
+eureka:
+  instance:
+    hostname: ${vcap.application.uris[0]:localhost}
+    nonSecurePort: 80
+  client:
+    serviceUrl:
+      defaultZone: http://bv-public-ds-1.cloud.pcftest.com/eureka/
