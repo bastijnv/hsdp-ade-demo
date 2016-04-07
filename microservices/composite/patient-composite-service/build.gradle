@@ -41,9 +41,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE")
 
-    compile("se.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
-    compile("se.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.patient:patient-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.observation:observation-service:0.0.1-SNAPSHOT")
+    compile("com.philips.microservices.core.episode:episode-service:0.0.1-SNAPSHOT")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
