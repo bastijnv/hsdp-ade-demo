@@ -19,7 +19,7 @@ to build. Below is the landscape that we will develop as part of Alpha. In subse
 will extent this landscape to finally match the landscape presented in
 [introduction](introduction.html).
 
-![](../images/alpha-overview.png)
+![alpha-overview](../images/alpha-overview.png)
 
 The composite service, *Patient-composite*, aggregates data of the three core services: *Patient*,
 *Observation*, and *Episode*. To support these services a *Service Discovery* service is provided
@@ -32,9 +32,9 @@ bypassing the edge server (see below).
 To get the source used in the remainder of this article you can checkout the GIT repo.
   
 ```bash
-$ git clone https://github.com/bastijnv/hsdp-ade-demo.git
-$ cd hsdp-ade-demo
-$ git checkout -b alpha
+git clone https://github.com/bastijnv/hsdp-ade-demo.git
+cd hsdp-ade-demo
+git checkout -b alpha
 ```
 
 In true microservice spirit, each component is built separately and thus has its own build file.
@@ -42,7 +42,7 @@ In true microservice spirit, each component is built separately and thus has its
 build all the microservices in one command.
 
 ```bash
-$ ./build-all.sh
+./build-all.sh
 ```
 
 > *Note:* Windows users should use the build-all.bat file.
@@ -153,4 +153,67 @@ and
 ```
 
 ## Testing the system
-Soon to come.
+To be able to run the command below we expect you have [cURL](https://curl.haxx.se/) and
+[jq](https://stedolan.github.io/jq/) at your disposal.
+
+> They can be replaced by any other tool if you know what you are doing.
+
+Each microservice you built before can be started via the gradle command `./gradlew bootRun`. So
+the below series of commands start the services. You might want to start the supporting services
+first, although this is not strictly required.
+
+```bash
+cd support/discovery-server;  ./gradlew bootRun
+cd support/edge-server;       ./gradlew bootRun
+
+cd core/patient-service;                 ./gradlew bootRun
+cd core/observation-service;             ./gradlew bootRun
+cd core/episode-service;                 ./gradlew bootRun
+cd composite/patient-composite-service;  ./gradlew bootRun
+```
+
+Sit back and relax while the services are coming up. After a while the discovery service should
+be up and running and you can browse to http://localhost:8761 to reach the Eureka page. Waiting some
+more you should see the core and composite services register themselves with the discovery server.
+Once they have all registered themselves with the discovery server we can start testing their
+functionality.
+
+![alpha-eureka](../images/alpha-eureka.png)
+
+Now we can start and execute some cURL commands in our terminal to test the services. First, let's
+find out what services are running on what addresses.
+
+```bash
+curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
+ jq '.applications.application[] |
+ {service: .name, ip: .instance.ipAddr, port: .instance.port."$"}'
+```
+Which should return the following:
+
+```json
+{
+  "service": "PRODUCT",
+  "ip": "192.168.0.116",
+  "port": "59745"
+}
+{
+  "service": "REVIEW",
+  "ip": "192.168.0.116",
+  "port": "59178"
+}
+{
+  "service": "RECOMMENDATION",
+  "ip": "192.168.0.116",
+  "port": "48014"
+}
+{
+  "service": "PRODUCTCOMPOSITE",
+  "ip": "192.168.0.116",
+  "port": "51658"
+}
+{
+  "service": "EDGESERVER",
+  "ip": "192.168.0.116",
+  "port": "8765"
+}
+```
