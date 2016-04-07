@@ -21,4 +21,4 @@ eureka:
 
 logging:
   level:
-    se.philips: INFO
+    com.philips: INFO
