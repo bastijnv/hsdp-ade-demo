@@ -36,11 +36,11 @@ Dockerize everything!
 ## **Epsilon** - An AngularJS client
 Add a client with actual UI!
 
-## **Zeta** - A/B Testing
+## **Zeta** - HSDP Access Management
+Learn how to replace the Authentication server from article gamma with the HSDP Authentication server.
+
+## **Èta** - HSDP Identity Management
+Learn how to use HSDP Identity Management services.
+
+## **Thèta** - A/B Testing
 Learn how we support A/B testing with our current environment.
-
-## **Èta** - Cloud Foundry and Warden containers via Cloud Rocker
-Philips is using Cloud Foundry which has its own container system. Docker on CF might not be the best choice. In this article we explore the possibilities running Warden containers.
-
-## **Thèta** - The future with Otto
-Otto promises to be the one tool to handle all the aspects of development and deployment to any cloud platform. This article discusses the current status of Otto (beta) and provides some workable code to see for yourself.
