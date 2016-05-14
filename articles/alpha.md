@@ -190,6 +190,10 @@ $ curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
 ```
 Which should return something similar to what is displayed below.
 
+> There is a known issue with the code that it might not return the response on first call. Calling the curl
+> command a couple of times usually fixes the issue. This might be fixed in the future. After a successful 
+> response the issue no longer appears.
+
 ```json
 {
   "service": "OBSERVATION",
