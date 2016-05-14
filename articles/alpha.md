@@ -153,7 +153,7 @@ and
 ```
 
 ## Testing the system
-To be able to run the command below we expect you have [cURL](https://curl.haxx.se/) and
+To be able to run the commands below we expect you have [cURL](https://curl.haxx.se/) and
 [jq](https://stedolan.github.io/jq/) at your disposal.
 
 > They can be replaced by any other tool if you know what you are doing.
