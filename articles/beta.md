@@ -48,6 +48,7 @@ $ git checkout -b beta
 ```
 
 ## Source Code Overview
+
 ### Gradle
 We need to add Hystrix to our dependencies. In addition we need to add [RabbitMQ]() which is used 
 by Hystrix to communicate between circuit breakers and dashboards.
