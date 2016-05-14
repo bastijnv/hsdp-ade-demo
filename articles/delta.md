@@ -6,7 +6,7 @@ layout: default-article
 {% include toc.html %}
 
 ## Introduction
-Some text
+introduction comes hre.
 
 ## Docker
 Docker introduction, installation, and configuration.
