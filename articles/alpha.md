@@ -141,14 +141,14 @@ and
 
 ```java
 @Autowired
-    private LoadBalancerClient loadBalancer;
-    ...
-    public ResponseEntity<List<Observation>> getObservations(int patientId) {
-
-            ServiceInstance instance = loadBalancer.choose("observation");
-            URI uri = instance.getUri();
-		    ...
-            response = restTemplate.getForEntity(url, String.class);
+private LoadBalancerClient loadBalancer;
+...
+public ResponseEntity<List<Observation>> getObservations(int patientId) {
+  ServiceInstance instance = loadBalancer.choose("observation");
+  URI uri = instance.getUri();
+  ...
+  response = restTemplate.getForEntity(url, String.class);
+}
 
 ```
 
@@ -188,6 +188,7 @@ $ curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
  jq '.applications.application[] |
  {service: .name, ip: .instance.ipAddr, port: .instance.port."$"}'
 ```
+
 Which should return something similar to what is displayed below.
 
 > There is a known issue with the code that it might not return the response on first call. Calling the curl

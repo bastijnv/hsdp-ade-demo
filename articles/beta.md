@@ -107,6 +107,7 @@ public ResponseEntity<Patient> defaultPatient(int patientId) {
     ...
 }
 ```
+
 Great, the code is there now build it using `build-all.sh` and let's try it out!
 
 ## Testing the system
@@ -117,6 +118,7 @@ Great, the code is there now build it using `build-all.sh` and let's try it out!
 You can start all services as explained in the [previous](alpha.html) article. In addition you have to run RabbitMQ locally 
 for Hystrix to work. If you do not have RabbitMQ installed you can download it [here](https://www.rabbitmq.com/download.html). 
 Follow the instructions and return here when RabbitMQ is running.
+
 >MacOSX users should really use *homebrew* to install.
 
 ```bash
@@ -131,7 +133,9 @@ Follow the instructions and return here when RabbitMQ is running.
   ##########
               Starting broker... completed with 10 plugins.
 ```
+
 Now start all microservices.
+
 ```bash
 $ cd support/discovery-server;  ./gradlew bootRun
 $ cd support/edge-server;       ./gradlew bootRun
