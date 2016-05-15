@@ -37,10 +37,10 @@ Dockerize everything!
 Add a client with actual UI!
 
 ## **Zeta** - HSDP Access Management
-Learn how to replace the Authentication server from article gamma with the HSDP Authentication server.
+Learn how to replace the Authentication server from article Gamma with the Philips HealthSuite Digital Platform Authentication server.
 
 ## **Èta** - HSDP Identity Management
-Learn how to use HSDP Identity Management services.
+Learn how to use Philips HealthSuite Digital Platform Identity Management services.
 
 ## **Thèta** - A/B Testing
 Learn how we support A/B testing with our current environment.
