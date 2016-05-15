@@ -147,8 +147,9 @@ $ cd core/observation-service;             ./gradlew bootRun
 $ cd core/episode-service;                 ./gradlew bootRun
 $ cd composite/patient-composite-service;  ./gradlew bootRun
 ```
+
 Wait for the magical `DiscoveryClient ... - registration status: 204` to appear on your started services to indicate they are ready.
-Remember that Eureka will also tell you this at http://localhost:8761.
+Remember that Eureka will also tell you this at <http://localhost:8761>.
 
 ![alpha-eureka](../images/alpha-eureka.png)
 
@@ -201,7 +202,7 @@ curl -s localhost:8765/patientcomposite/patient/1 | jq .
 }
 ``` 
 
-Now that that works, go to your Hystrix dashboard at http://localhost:7979/. You should see the dashboard below.
+Now that that works, go to your Hystrix dashboard at <http://localhost:7979>. You should see the dashboard below.
 
 ![beta-hystrix-dashboard](../images/beta-hystrix-dashboard.png)
 

@@ -173,7 +173,7 @@ $ cd composite/patient-composite-service;  ./gradlew bootRun
 ```
 
 Sit back and relax while the services are coming up. After a while the discovery service should
-be up and running and you can browse to http://localhost:8761 to reach the Eureka page. Waiting some
+be up and running and you can browse to <http://localhost:8761> to reach the Eureka page. Waiting some
 more you should see the core and composite services register themselves with the discovery server.
 Once they have all registered themselves with the discovery server we can start testing their
 functionality.
