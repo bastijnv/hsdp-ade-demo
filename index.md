@@ -5,7 +5,9 @@ layout: default
 
 {% include toc.html %}
 
-Welcome to the blog series demonstrating the HSDP Application Development Environment (ADE). This series is meant as introduction to the HSDP ADE as well as layout the develop experience. The series covers deploying microservices in local development environment, and the cloud using applications platforms and infrastructures for Docker.
+Welcome to the blog series demonstrating how to build microservices with Spring Boot. The series covers deploying microservices in a local development environment, and the cloud using application platforms and infrastructures for Docker. In addition it will introduce services from the 
+[Philips HealthSuite Digital Platform](http://www.usa.philips.com/healthcare/innovation/about-health-suite) to replace default Authentication and
+Authorization, and data stores. 
 
 
 ## **Introduction** - An operation model for Microservices
