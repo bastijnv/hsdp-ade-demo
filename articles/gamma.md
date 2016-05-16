@@ -269,6 +269,90 @@ You can save to an evironment variable for later use.
 export TOKEN=b835dd2e-8b1d-4d3b-977c-55dffab24daf
 ```
 
+### Using the access token
+Now that we have an access token let's use it to communicate with our API service. First verify that access
+without an access token, or with an invalid access token fails.
+
+```cURL
+curl 'http://localhost:8765/api/patient/123' -s | jq .
+{
+  "error": "unauthorized",
+  "error_description": "Full authentication is required to access this resource"
+}
+```
+
+```cURL
+curl 'http://localhost:8765/api/patient/123' \
+  -H  "Authorization: Bearer invalid-access-token" -s | jq .
+{
+  "error": "access_denied",
+  "error_description": "Unable to obtain a new access token for resource 'null'. The provider manager is not configured to support it."
+}
+```
+
+Now that we have verified that throws access denied, let's add our access token to send a correct request. Note that we
+have stored a valid access token in the `TOKEN` environment variable.
+
+```cURL
+curl 'http://localhost:8765/api/patient/123' \
+  -H  "Authorization: Bearer $TOKEN" -s | jq .
+{
+  "patientId": 123,
+  "name": "name",
+  "birthDate": "01-01-2000",
+  "observations": [
+    {
+      "observationId": 1,
+      "type": "Steps",
+      "value": 100
+    },
+    {
+      "observationId": 2,
+      "type": "HearthRate",
+      "value": 63
+    },
+    {
+      "observationId": 3,
+      "type": "Steps",
+      "value": 400
+    }
+  ],
+  "episodes": [
+    {
+      "episodeId": 1,
+      "referral": "Acme",
+      "tac": "eCAC"
+    },
+    {
+      "episodeId": 2,
+      "referral": "Acme",
+      "tac": "eTrAC"
+    },
+    {
+      "episodeId": 3,
+      "referral": "Acme",
+      "tac": "eTrAC"
+    }
+  ]
+}
+```
+
+If we have a look at the logs of the api-service we see that the API service contacts the Authorization Server to get the user info and prints
+the acquired info in the logs.
+
+```
+2016-05-16 09:32:14.799  INFO 62825 --- [entApiService-4] c.p.m.a.p.service.PatientApiService      : GetPatientComposite http-status: 200
+2016-05-16 09:32:15.135  INFO 62825 --- [  XNIO-2 task-8] o.s.c.s.o.r.UserInfoTokenServices        : Getting user info from: http://localhost:9999/uaa/user
+2016-05-16 09:32:15.235  INFO 62825 --- [entApiService-5] c.p.m.a.p.service.PatientApiService      : PatientApi: User=user, Auth=Bearer 3dd89559-39ef-4221-ab64-ffbb00d48e1c, called with patientId=123
+```
+
+## Wrap-up
+We have secured our resources with OAuth2. We have tested the four grant protocols and verified that the token obtained from them 
+can be used to get data from our protected resources. We also verified that invalid tokens properly got an access denied as response.
+
+You must be tired starting all services manually each time. In the [next](delta.html) article we introduce Docker to make
+this much more convenient for you! 
+
 
 
 
