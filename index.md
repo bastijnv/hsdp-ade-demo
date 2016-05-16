@@ -29,7 +29,8 @@ Add a new service (patient-api), that will act as the external API (a Resource S
 [Read full article](articles/gamma.html)
 
 ## **Delta** - Dockerize!
-Dockerize everything!
+Docker allows you to package an application with all of its dependencies into a standardized unit for software development. It also adds a lot
+of convenience so we do no longer have to manually start all services from the command line one by one!
 
 [Read full article](articles/delta.html)
 
