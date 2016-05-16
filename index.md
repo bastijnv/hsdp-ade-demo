@@ -37,6 +37,8 @@ of convenience so we do no longer have to manually start all services from the c
 ## **Epsilon** - An AngularJS client
 Add a client with actual UI!
 
+[Read full article](articles/epsilon.html)
+
 ## **Zeta** - HSDP Access Management
 Learn how to replace the Authentication server from article Gamma with the Philips HealthSuite Digital Platform Authentication server.
 

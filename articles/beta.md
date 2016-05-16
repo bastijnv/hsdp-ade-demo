@@ -202,7 +202,8 @@ curl -s localhost:8765/patientcomposite/patient/1 | jq .
 }
 ``` 
 
-Now that that works, go to your Hystrix dashboard at <http://localhost:7979>. You should see the dashboard below.
+Now that that works, go to your Hystrix dashboard at <http://localhost:7979> and enter <http://localhost:8989/turbine.stream> as the
+stream. You should see the dashboard below.
 
 ![beta-hystrix-dashboard](../images/beta-hystrix-dashboard.png)
 
