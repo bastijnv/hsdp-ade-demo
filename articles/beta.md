@@ -113,7 +113,8 @@ Great, the code is there now build it using `build-all.sh` and let's try it out!
 ## Testing the system
 > As in [Alpha](alpha.html), to be able to run the commands below we expect you have [cURL](https://curl.haxx.se/) and
 > [jq](https://stedolan.github.io/jq/) at your disposal. You can replace these with any other tools 
-> with similar functionality if you know what you are doing.
+> with similar functionality if you know what you are doing. In addition, the Postman collection is available and traced
+> here.
 
 You can start all services as explained in the [previous](alpha.html) article. In addition you have to run RabbitMQ locally 
 for Hystrix to work. If you do not have RabbitMQ installed you can download it [here](https://www.rabbitmq.com/download.html). 
@@ -160,7 +161,9 @@ Test that the circuits are closed by running a simple query.
 > response the issue no longer appears.
 
 ```bash
-curl -s localhost:8765/patientcomposite/patient/1 | jq .
+postman (4)
+
+$ curl -s localhost:8765/patientcomposite/patient/1 | jq .
 {
   "patientId": 1,
   "name": "name",
@@ -212,7 +215,9 @@ are closed, which is what we expected to see. Now let's change that, let's break
 service and retry the above command.
 
 ```bash
-curl -s localhost:8765/patientcomposite/patient/1 | jq .
+postman (4)
+
+$ curl -s localhost:8765/patientcomposite/patient/1 | jq .
 {
   "patientId": 1,
   "name": "name",
@@ -253,7 +258,9 @@ is unavailable. Note that the circuit is still closed since the error is not tha
 exceed the threshold.
 
 ```
-ab -n 30 -c 5 localhost:8765/patientcomposite/patient/1
+no postman
+
+$ ab -n 30 -c 5 localhost:8765/patientcomposite/patient/1
 ```
 That should have opened the circuit as shown in the screenshot below.
 

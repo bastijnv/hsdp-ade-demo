@@ -214,6 +214,12 @@ curl acme:acmesecret@localhost:9999/uaa/oauth/token \
 }
 ```
 
+Or with Postman using its OAuth2 support.
+
+> **NOTE** Currently Authorization Code grant is not working in Postman. We are not sure why.
+
+![postman-auth-code](../images/gamma-postman-auth-code.png)
+
 ### Implicit Grant
 The implicit grant type is used for mobile apps and web applications (i.e. applications that run in a web browser), where the client secret confidentiality is not guaranteed. The implicit grant type is also a redirection-based flow but the access token is given to the user-agent to forward to the application, so it may be exposed to the user and other applications on the user's device. Also, this flow does not authenticate the identity of the application, and relies on the redirect URI (that was registered with the service) to serve this purpose. The implicit grant type does not support refresh tokens.
 
@@ -231,7 +237,11 @@ export TOKEN=7f986847-7363-4c6a-b122-d15e0d18d519
 ### Resource Owner Password Credentials Grant
 With the resource owner password credentials grant type, the user provides their service credentials (username and password) directly to the application, which uses the credentials to obtain an access token from the service. This grant type should only be enabled on the authorization server if other flows are not viable. Also, it should only be used if the application is trusted by the user (e.g. it is owned by the service, or the user's desktop OS).
 
+> **NOTE** We are not sure why, but the postman request is broken while cURL request works. Nonetheless, we added it for you.
+
 ```cURL
+postman (5)
+
 curl -s acme:acmesecret@localhost:9999/uaa/oauth/token  \
   -d grant_type=password \
   -d client_id=acme \
@@ -269,11 +279,17 @@ You can save to an evironment variable for later use.
 export TOKEN=b835dd2e-8b1d-4d3b-977c-55dffab24daf
 ```
 
+You can also run this from Postman using its OAuth2 support.
+
+![postman-client-creds](../images/gamma-postman-client-creds.png)
+
 ### Using the access token
 Now that we have an access token let's use it to communicate with our API service. First verify that access
 without an access token, or with an invalid access token fails.
 
 ```cURL
+postman (6)
+
 curl 'http://localhost:8765/api/patient/123' -s | jq .
 {
   "error": "unauthorized",
@@ -282,6 +298,8 @@ curl 'http://localhost:8765/api/patient/123' -s | jq .
 ```
 
 ```cURL
+postman (7)
+
 curl 'http://localhost:8765/api/patient/123' \
   -H  "Authorization: Bearer invalid-access-token" -s | jq .
 {
@@ -294,6 +312,8 @@ Now that we have verified that throws access denied, let's add our access token 
 have stored a valid access token in the `TOKEN` environment variable.
 
 ```cURL
+postman (8)
+
 curl 'http://localhost:8765/api/patient/123' \
   -H  "Authorization: Bearer $TOKEN" -s | jq .
 {

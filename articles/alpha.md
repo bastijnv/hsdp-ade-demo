@@ -154,7 +154,12 @@ public ResponseEntity<List<Observation>> getObservations(int patientId) {
 
 ## Testing the system
 To be able to run the commands below we expect you have [cURL](https://curl.haxx.se/) and
-[jq](https://stedolan.github.io/jq/) at your disposal.
+[jq](https://stedolan.github.io/jq/) at your disposal. For convenience we also provide a 
+[Postman](https://www.getpostman.com/) collection to follow along. The collection can 
+be found [here](https://www.getpostman.com/collections/d02c8552ea9a65432a10). Each request 
+below is numbered (between brackets) to easily trace back and forth. 
+
+![postman](../images/alpha-postman.png)
 
 > They can be replaced by any other tool if you know what you are doing.
 
@@ -184,6 +189,8 @@ Now we can start and execute some cURL commands in our terminal to test the serv
 find out what services are running on what addresses.
 
 ```bash
+postman (1)
+
 $ curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps |
  jq '.applications.application[] |
  {service: .name, ip: .instance.ipAddr, port: .instance.port."$"}'
@@ -194,6 +201,9 @@ Which should return something similar to what is displayed below.
 > There is a known issue with the code that it might not return the response on first call. Calling the curl
 > command a couple of times usually fixes the issue. This might be fixed in the future. After a successful 
 > response the issue no longer appears.
+
+> Postman users see a lot more as jq is not there to filter things for you. However, they do have the convenience
+> that a test script is run on the response to automatically obtain the ports for the next exercise (postman (3)).
 
 ```json
 {
@@ -230,6 +240,8 @@ the Zuul settings we now we can reach the patient-composite at `/patientcomposit
 run the following command to get a patient.
 
 ```bash
+postman (2)
+
 $ curl -s localhost:8765/patientcomposite/patient/1 | jq .
 ```
 
@@ -286,13 +298,15 @@ the edge server. We do not know which dynamic address was assigned to them but u
 from our earlier Eureka REST api call we can look them up.
 
 ```bash
+postman (3) | pre-req: run postman (1)
+
 $ curl -s localhost:41420/patient/1 | jq .
 $ curl -s localhost:40738/patient/1 | jq .
 $ curl -s localhost:41533/episode?patientId=1 | jq .
 $ curl -s localhost:65522/observation?patientId=1 | jq .
 ```
 
-No that we have verified that is working we can spin up a new instance of the episode service.
+Now that we have verified that is working we can spin up a new instance of the episode service.
 Having multiple instances up for a single service is common practice to prevent failures due to
 network outage or crashing services. Adding a new instance is as easy as starting another instance
 since service discovery handles the rest for us.
@@ -309,6 +323,8 @@ should see both services responding. To make sure the calls are made fast enough
 to let the load balancer balance them you can run the following command.
 
 ```bash
+no postman
+
 $ ab -n 30 -c 5 localhost:8765/patientcomposite/patient/1
 ```
 
