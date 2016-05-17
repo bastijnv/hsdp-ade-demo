@@ -17,8 +17,7 @@ The remainder of this article will cover three important aspects to rollout your
 
 ## Architecture
 To be able to manage and maintain a microservice landscape at an enterprise scale we must define an architecture to partition our microservices. Many options 
-are available here, and we by no means want to say the one presented here is the only right one. Your situation can require a different architecture, as long 
-as you establish one before you start to prevent ending up with a bowl of spaghetti.
+are available here, and we by no means want to say the one presented here is the only right one. Your situation can require a different architecture, as long  as you establish one before you start to prevent ending up in chaos.
 
 The architecture for this series discerns three layers of services:
 
@@ -88,3 +87,9 @@ Inter-service communication is implemented using the ELK stack: [Logstash](https
 
 ## Contineous Delivery
 Stay tuned!
+
+## Wrap-up
+We introduced the architecture and operations model we will use in the remainder of this series. We discussed
+the challenges of the architecture and briefly presented how we will address them.
+
+In the [next](alpha.html) article we will setup the base services, Edge server, Load Balancer, and Discovery.

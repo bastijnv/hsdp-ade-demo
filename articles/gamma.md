@@ -23,7 +23,7 @@ In subsequent articles we will extent this landscape to finally match the landsc
 ![](../images/gamma-overview.png)
 
 The four roles in OAuth are: (1) Resource Owner, (2) Client, (3) Resource Server, (4) Authorization Server. In our operations model 
-shown in the overview below we introduce an *OAuth Authorization Server* as a separate component. The API services will act as *OAuth Resource Server* and the
+shown in the overview above we introduce an *OAuth Authorization Server* as a separate component. The API services will act as *OAuth Resource Server* and the
 external API consumers will be the *OAuth Resource Clients*. Finally, the edge server will act as *OAuth Token Relay* meaning it is an
 *OAuth Resource Server* that passes through the *OAuth Access Tokens* that are contained in the external requests to the API services.
 Note that the role of Authorization Server is often
@@ -31,8 +31,8 @@ taken by either public providers such as Facebook, Google, or LinkedIN, or by of
 we will address this in more detail. In the remainder of this article we will test all four authorization grant flows to get an access token from the Authorization server. 
 
 > Note that when we talk security doing everything over HTTP is not advised. In any real world scenario you should
-> route all your traffic over HTTPS. For the sake of keeping things simple in this series we will continue to 
-> use HTTP exclusively.
+> route all your traffic over HTTPS. For the sake of keeping things simple in this article we will continue to 
+> use HTTP.
 
 ## Source
 To get and build the source used in the remainder of this article you can checkout the GIT repo.
@@ -100,8 +100,8 @@ zuul:
     patientapi: /patient/**
 ```
 
-This gives URLs like <http://localhost:8765/api/patient/123> instead of <http://localhost:8765/patientapi/patient/123> as we used in the previous posts.
-The route to the composite-service is also replaced with a route to the api-service.
+This gives URLs like <http://localhost:8765/api/patient/123> instead of <http://localhost:8765/patientapi/patient/123> as we 
+used in the previous articles. The route to the composite-service is also replaced with a route to the api-service.
 
 ### Microservices
 The *patient-api-service* must be configured to be an OAuth Resource Server. As you might guess, again Spring helps us out by providing a
@@ -144,7 +144,7 @@ public ResponseEntity<String> getPatientComposite(
 We have removed the `/patient` from the RequestMapping to be in line with the changes to the Edge Server mentioned before.
 
 ## Testing the system
-Ensure your RabbitMQ is running then start the services.
+Ensure your RabbitMQ is running as explained in the Beta article, then start the services.
 
 ```bash
 $ cd support/auth-server;       ./gradlew bootRun
@@ -170,12 +170,12 @@ To initiate an authorization code token grant you visit the authorization endpoi
 authenticated (user/password) and accept the consent you will get a redirect to example.com with an authorization code attached, 
 e.g. <http://example.com/?code=VuBeo9&state=97536>.
 
-![gamma-consent](../images/gamma-consent.png)
+<img src="../images/gamma-consent.png" width="425px" height="195px" style="display:block;margin:auto;">
 
-> **NOTE** the state parameter should be set to a random value in the request and checked on the response for preventing cross-site request forgery.
+> **NOTE** The state parameter should be set to a random value in the request and checked on the response for preventing cross-site request forgery.
 
-> **NOTE** for the purposes of this sample application we have created a client "acme" with no registered redirect, which is what enables us to get 
-> a redirect the example.com. In a production application you should always register a redirect (and use HTTPS).
+> **NOTE** For the purposes of this sample application we have created a client "acme" with no registered redirect, which is what enables us to get 
+> a redirect to example.com. In a production application you should always register a redirect (and use HTTPS).
 
 The code can be exchanged for an access token using the "acme" client credentials on the token endpoint. 
 
@@ -237,7 +237,8 @@ export TOKEN=7f986847-7363-4c6a-b122-d15e0d18d519
 ### Resource Owner Password Credentials Grant
 With the resource owner password credentials grant type, the user provides their service credentials (username and password) directly to the application, which uses the credentials to obtain an access token from the service. This grant type should only be enabled on the authorization server if other flows are not viable. Also, it should only be used if the application is trusted by the user (e.g. it is owned by the service, or the user's desktop OS).
 
-> **NOTE** We are not sure why, but the postman request is broken while cURL request works. Nonetheless, we added it for you.
+> **NOTE** We are not sure why, but firing the request from Postman fails while the exported cURL works. 
+> Nonetheless, we added it for you.
 
 ```cURL
 postman (5)
@@ -312,7 +313,7 @@ Now that we have verified that throws access denied, let's add our access token 
 have stored a valid access token in the `TOKEN` environment variable.
 
 ```cURL
-postman (8)
+postman (8) | replace your token
 
 curl 'http://localhost:8765/api/patient/123' \
   -H  "Authorization: Bearer $TOKEN" -s | jq .

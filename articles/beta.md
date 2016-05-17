@@ -18,7 +18,7 @@ introduction on circuit breakers read [Fowler's post](http://martinfowler.com/bl
 A typical circuit breaker applies state transitions like seen in the image below. When a service is behaving 
 as expected the circuit will be closed and business is as usual. Requests are made to the target service. 
 When a service starts failing the circuit breaker waits for a threshold to be reached after which it opens 
-the circuit. An open circuit will prevent the request to the target service is not made but a cached 
+the circuit. An open circuit will prevent the request to the target service to be made, instead a (cached) 
 response is returned immediately. After a set period the circuit breaker will test if the circuit can 
 be closed again by allowing some request to pass to the target request. When the target service is available 
 again the circuit will be closed again.
@@ -112,13 +112,13 @@ Great, the code is there now build it using `build-all.sh` and let's try it out!
 
 ## Testing the system
 > As in [Alpha](alpha.html), to be able to run the commands below we expect you have [cURL](https://curl.haxx.se/) and
-> [jq](https://stedolan.github.io/jq/) at your disposal. You can replace these with any other tools 
-> with similar functionality if you know what you are doing. In addition, the Postman collection is available and traced
-> here.
+> [jq](https://stedolan.github.io/jq/) at your disposal. In addition, the Postman collection is available
+> [here](https://www.getpostman.com/collections/d02c8552ea9a65432a10). You can replace these with any other 
+> tools with similar functionality if you know what you are doing.
 
-You can start all services as explained in the [previous](alpha.html) article. In addition you have to run RabbitMQ locally 
-for Hystrix to work. If you do not have RabbitMQ installed you can download it [here](https://www.rabbitmq.com/download.html). 
-Follow the instructions and return here when RabbitMQ is running.
+You have to run RabbitMQ locally for Hystrix to work. If you do not have RabbitMQ installed you 
+can download it [here](https://www.rabbitmq.com/download.html). Follow the instructions and return 
+here when RabbitMQ is running.
 
 >MacOSX users should really use *homebrew* to install.
 

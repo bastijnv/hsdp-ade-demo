@@ -154,14 +154,14 @@ public ResponseEntity<List<Observation>> getObservations(int patientId) {
 
 ## Testing the system
 To be able to run the commands below we expect you have [cURL](https://curl.haxx.se/) and
-[jq](https://stedolan.github.io/jq/) at your disposal. For convenience we also provide a 
-[Postman](https://www.getpostman.com/) collection to follow along. The collection can 
-be found [here](https://www.getpostman.com/collections/d02c8552ea9a65432a10). Each request 
-below is numbered (between brackets) to easily trace back and forth. 
-
-![postman](../images/alpha-postman.png)
+[jq](https://stedolan.github.io/jq/) at your disposal. We also provide a 
+[Postman](https://www.getpostman.com/) collection to follow along.
+The collection can be found [here](https://www.getpostman.com/collections/d02c8552ea9a65432a10). 
+Each request below is numbered (between brackets) to easily trace back and forth. 
 
 > They can be replaced by any other tool if you know what you are doing.
+
+<img src="../images/alpha-postman.png" width="490px" height="365px" style="display:block;margin:auto;">
 
 Each microservice you built before can be started via the gradle command `./gradlew bootRun`. So
 the below series of commands start the services. You might want to start the supporting services
@@ -293,7 +293,7 @@ untouched. The response should be something similar to the following:
 }
 ```
 
-Now, since not protection is yet in place, we can also directly call the core services bypassing
+Now, since no protection is yet in place, we can also directly call the core services bypassing
 the edge server. We do not know which dynamic address was assigned to them but using the output
 from our earlier Eureka REST api call we can look them up.
 
@@ -306,7 +306,7 @@ $ curl -s localhost:41533/episode?patientId=1 | jq .
 $ curl -s localhost:65522/observation?patientId=1 | jq .
 ```
 
-Now that we have verified that is working we can spin up a new instance of the episode service.
+Now that we have verified everything is working we can spin up a new instance of the episode service.
 Having multiple instances up for a single service is common practice to prevent failures due to
 network outage or crashing services. Adding a new instance is as easy as starting another instance
 since service discovery handles the rest for us.
@@ -316,7 +316,7 @@ $ cd core/episode-service
 $ ./gradlew bootRun
 ```
 
-After a while you should see the registered service in your eureka page. Under the status message
+After a while you should see the registered service in your Eureka page. Under the status message
 for the episode service it should now say **up**(*2*) instead of **up**(1). If you run the previous
 curl command to the patientcomposite a few times and watch the logs of the episode services you
 should see both services responding. To make sure the calls are made fast enough after each other

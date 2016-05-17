@@ -11,7 +11,7 @@ They are based on open standards allowing containers to run on all major Linux d
 
 Containers running on a single machine all share the same operating system kernel so they start instantly and make more efficient use of RAM. Images are constructed from layered filesystems so they can share common files, making disk usage and image downloads much more efficient. Containers isolate applications from each other and the underlying infrastructure while providing an added layer of protection for the application.
 
-Compared to VMs Docker containers have similar resource isolation and allocation benefits as virtual machines but a different architectural approach allows them to be much more portable and efficient.
+Compared to VMs, Docker containers have similar resource isolation and allocation benefits as virtual machines but a different architectural approach allows them to be much more portable and efficient.
 
 ![Docker](../images/delta-docker.png)
 
@@ -24,6 +24,10 @@ Soon to come.
 
 ## Docker Installation
 Please install and setup Docker for your environment following the [Get Started](https://docs.docker.com/mac/started/) for Mac or [Get Started](https://docs.docker.com/windows/started) for windows. Return once you have Docker installed.
+
+> **NOTE** Recently Docker Beta was launched. Since you have to subscribe we do not use it for this article series. However, feel 
+> free to subscribe and use docker beta. Faster, and more reliable without VirtualBox! See the 
+> [announcement](https://blog.docker.com/2016/03/docker-for-mac-windows-beta/) for more information.
 
 If you are on Windows or Mac, Docker by default creates a VM for you named *default*. For this series we will create our own VM with slightly changed 
 specifications. Create a virtual machine named *dev* with 4096MB memory and 32GB disk size with the command below. After that start the new machine.
@@ -42,7 +46,7 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
 
-For convenience we map the IP of our dev box to our hosts file.
+For convenience we map the IP of our dev box to docker in our hosts file. Lookup the IP and add to your hosts file.
 
 ```bash
 $ docker-machine ip dev
@@ -175,7 +179,8 @@ server:
 
 ### Docker 
 To start all our microservices we use [Docker Compose](https://docs.docker.com/compose/). If we configure Docker Compose correctly we
-can start all microservices with a single command `docker-compose up -d`. You configure Docker Compose via an yml file, 
+can start all microservices with a single command `docker-compose up -d` from the root directory holding the `docker-compose.yml`.
+You configure Docker Compose via this yml file, 
 [docker-compose.yml](https://github.com/bastijnv/hsdp-ade-demo/blob/delta/docker-compose.yml). A snapshot is shown below. The complete
 file lists all the containers to start, forwards ports, and links services that need to know about each other.
 
@@ -209,10 +214,10 @@ api:
 ```
 
 ## Testing the system
-Start the services with a single command. 
+Start the services with a single command from the root directory. 
 
 ```bash
-docker-compose up -d
+$ docker-compose up -d
 Creating adedemo_auth_1
 Creating adedemo_rabbitmq_1
 Creating adedemo_discovery_1
@@ -264,8 +269,12 @@ Wait for <http://docker:8761/> to show all services are registered.
 
 Great! Now let's run some queries. First we have to Authorize ourselves. Store the token in an environment variable again for later use.
 
+> As in the Gamma article, the Postman request is failing. Feel free to change it and let me know if you get it to work!
+
 ```cURL
-$ curl https://acme:acmesecret@docker:9999/uaa/oauth/token \                                                                                                           4 ↵
+postman (9)
+
+$ curl https://acme:acmesecret@docker:9999/uaa/oauth/token \
    -d grant_type=password -d client_id=acme \
    -d username=user -d password=password -ks | jq .
 {
@@ -284,9 +293,12 @@ Now use the token to request some data. If you are still keeping an eye on the d
 you should see the microservices log the request. Due to the bug reported in the earlier article it might take some tries
 before it returns the data. Once it does however it will always work directly. 
 
-> **NOTE** If you get tired of this issue feel free to fork and deliver the fix in a pull request!
+> **NOTE** If you get tired of this issue feel free to fork and deliver the fix in a pull request! Seems the core services
+> do not respond fast enough or Hystrix falsely opens the circuit.
 
 ```cURL
+postman (10) | run postman(9) or manually add access_token
+
 $ curl -H "Authorization: Bearer $TOKEN" \
   -ks 'https://docker/api/patient/1046' | jq .
 {
@@ -370,6 +382,9 @@ composite_1   | 2016-05-16 13:31:03.340  INFO 1 --- [eIntegration-53] c.p.m.c.p.
 episode_1     | 2016-05-16 13:31:03.372  INFO 1 --- [ XNIO-2 task-10] c.p.m.c.episode.service.EpisodeService   : /episodes called, processing time: 0
 episode_1     | 2016-05-16 13:31:03.384  INFO 1 --- [ XNIO-2 task-10] c.p.m.c.episode.service.EpisodeService   : /episodes response size: 3
 api_1         | 2016-05-16 13:31:03.445  INFO 1 --- [ntApiService-19] c.p.m.a.p.service.PatientApiService      : GetPatientComposite http-status: 200
+...
+episode_2     | 2016-05-16 13:31:04.176  INFO 1 --- [ XNIO-2 task-10] c.p.m.c.episode.service.EpisodeService   : /episodes called, processing time: 0
+episode_2     | 2016-05-16 13:31:04.192  INFO 1 --- [ XNIO-2 task-10] c.p.m.c.episode.service.EpisodeService   : /episodes response size: 3
 ```
 
 ## Wrap-up
